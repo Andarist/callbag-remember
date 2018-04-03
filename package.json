@@ -1,6 +1,6 @@
 {
   "name": "callbag-remember",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "👜 Callbag operator which shares input stream between subscribers and emits last emitted value upon subscription.",
   "main": "dist/callbag-remember.js",
   "module": "dist/callbag-remember.es.js",
