@@ -37,6 +37,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.3",
     "callbag-for-each": "^1.0.1",
+    "callbag-from-iter": "1.1.0",
     "callbag-pipe": "^1.1.1",
     "callbag-subject": "^1.0.2",
     "husky": "^0.14.3",
