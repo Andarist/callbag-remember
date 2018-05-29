@@ -40,6 +40,7 @@
     "callbag-from-iter": "1.1.0",
     "callbag-pipe": "^1.1.1",
     "callbag-subject": "^1.0.2",
+    "callbag-tap": "1.1.0",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "lint-staged": "^7.0.0",
