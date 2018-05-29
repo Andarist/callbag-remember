@@ -1,6 +1,8 @@
 import forEach from 'callbag-for-each'
 import pipe from 'callbag-pipe'
 import subject from 'callbag-subject'
+import fromIter from 'callbag-from-iter'
+import tap from 'callbag-tap'
 
 import remember from '../src'
 
@@ -53,4 +55,22 @@ test('works', () => {
         ['3', 3],
       ])
     })
+})
+
+test('terminates', () => {
+  let terminated = false
+
+  const tapped = tap(() => {}, undefined, () => (terminated = true))
+  const range$ = tapped(fromIter([10, 20, 30, 40]))
+  const source$ = remember(range$)
+
+  let actual = []
+
+  pipe(
+    source$,
+    forEach(i => actual.push(i)),
+  )
+
+  expect(actual).toEqual([10, 20, 30, 40, 40])
+  expect(terminated).toEqual(true)
 })
