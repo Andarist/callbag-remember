@@ -1,5 +1,5 @@
 export default function remember(source) {
-  const sinks = []
+  let sinks = []
   let inited = false
   let ask
   let value
