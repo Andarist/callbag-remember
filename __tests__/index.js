@@ -71,6 +71,6 @@ test('terminates', () => {
     forEach(i => actual.push(i)),
   )
 
-  expect(actual).toEqual([10, 20, 30, 40, 40])
+  expect(actual).toEqual([10, 20, 30, 40])
   expect(terminated).toEqual(true)
 })

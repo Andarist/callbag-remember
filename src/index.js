@@ -60,7 +60,7 @@ export default function remember(source) {
       }
     })
 
-    if (inited) {
+    if (inited && endValue === UNIQUE) {
       sink(1, value)
     }
   }
