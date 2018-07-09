@@ -74,3 +74,33 @@ test('terminates', () => {
   expect(actual).toEqual([10, 20, 30, 40])
   expect(terminated).toEqual(true)
 })
+
+test('sends handshake before any data when source emits value after handshake', () => {
+  let emit
+  const source$ = (t, d) => {
+    let sink
+    if (t === 0) {
+      sink = d
+      sink(0) // no talkback
+      emit = value => sink(1, value)
+      emit(29) // emit initial value
+    } else if (t === 2 && sink) {
+      sink(2)
+    }
+  }
+  const remember$ = remember(source$)
+  const sink$ = jest.fn()
+
+  remember$(0, sink$)
+
+  expect(sink$).toHaveBeenCalled()
+  expect(sink$).toHaveBeenCalledTimes(2)
+  expect(sink$.mock.calls[0][0]).toBe(0)
+  expect(sink$.mock.calls[1]).toEqual([1, 29]) // initial value
+
+  // emit value
+  emit(42)
+
+  expect(sink$).toHaveBeenCalledTimes(3)
+  expect(sink$.mock.calls[2]).toEqual([1, 42])
+})
