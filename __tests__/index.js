@@ -81,26 +81,28 @@ test('sends handshake before any data when source emits value after handshake', 
     let sink
     if (t === 0) {
       sink = d
-      sink(0) // no talkback
+      sink(0, () => {})
       emit = value => sink(1, value)
-      emit(29) // emit initial value
+      // emit initial value
+      emit(29)
     } else if (t === 2 && sink) {
       sink(2)
     }
   }
-  const remember$ = remember(source$)
-  const sink$ = jest.fn()
+  const remembered$ = remember(source$)
+  const sink = jest.fn()
 
-  remember$(0, sink$)
+  remembered$(0, sink)
 
-  expect(sink$).toHaveBeenCalled()
-  expect(sink$).toHaveBeenCalledTimes(2)
-  expect(sink$.mock.calls[0][0]).toBe(0)
-  expect(sink$.mock.calls[1]).toEqual([1, 29]) // initial value
+  expect(sink).toHaveBeenCalled()
+  expect(sink).toHaveBeenCalledTimes(2)
+  expect(sink.mock.calls[0][0]).toBe(0)
+  // initial value
+  expect(sink.mock.calls[1]).toEqual([1, 29])
 
   // emit value
   emit(42)
 
-  expect(sink$).toHaveBeenCalledTimes(3)
-  expect(sink$.mock.calls[2]).toEqual([1, 42])
+  expect(sink).toHaveBeenCalledTimes(3)
+  expect(sink.mock.calls[2]).toEqual([1, 42])
 })
