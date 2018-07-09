@@ -5,7 +5,7 @@ export default function remember(source) {
   let sinks = []
   let inited = false
   let endValue = UNIQUE
-  let ask
+  let sourceTalkback
   let value
 
   return (start, sink) => {
@@ -22,10 +22,31 @@ export default function remember(source) {
 
     sinks.push(sink)
 
+    const talkback = (type, data) => {
+      if (type === 0) return
+
+      if (type === 2) {
+        const index = sinks.indexOf(sink)
+
+        if (index !== -1) {
+          sinks.splice(index, 1)
+        }
+
+        return
+      }
+
+      if (endValue !== UNIQUE) {
+        return
+      }
+
+      sourceTalkback(type, data)
+    }
+
     if (sinks.length === 1) {
       source(0, (type, data) => {
         if (type === 0) {
-          ask = data
+          sourceTalkback = data
+          sink(0, talkback)
           return
         }
 
@@ -34,31 +55,22 @@ export default function remember(source) {
           value = data
         }
 
-        sinks.slice(0).forEach(sink => {
-          sink(type, data)
-        })
+        const sinksCopy = sinks.slice(0)
 
         if (type === 2) {
           endValue = data
           sinks = null
         }
+
+        sinksCopy.forEach(sink => {
+          sink(type, data)
+        })
       })
+
+      return
     }
 
-    sink(0, (type, data) => {
-      if (type === 0) return
-
-      if (type === 1 && endValue === UNIQUE) {
-        ask(1)
-        return
-      }
-
-      const index = sinks.indexOf(sink)
-
-      if (index !== -1) {
-        sinks.splice(index, 1)
-      }
-    })
+    sink(0, talkback)
 
     if (inited && endValue === UNIQUE) {
       sink(1, value)
