@@ -100,7 +100,6 @@ test('sends handshake before any data when source emits value after handshake', 
   // initial value
   expect(sink.mock.calls[1]).toEqual([1, 29])
 
-  // emit value
   emit(42)
 
   expect(sink).toHaveBeenCalledTimes(3)

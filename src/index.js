@@ -20,6 +20,7 @@ export default function remember(source) {
       return
     }
 
+    let greeted = false
     sinks.push(sink)
 
     const talkback = (type, data) => {
@@ -43,6 +44,10 @@ export default function remember(source) {
     }
 
     if (sinks.length === 1) {
+      // sink starting subscription is safe to be marked as greeted right away
+      // it shouldn't cause any issues with prevValue because there is no prevValue yet
+      greeted = true
+
       source(0, (type, data) => {
         if (type === 0) {
           sourceTalkback = data
@@ -51,8 +56,14 @@ export default function remember(source) {
         }
 
         if (type === 1) {
-          inited = true
+          const prevValue = value
           value = data
+
+          if (inited && !greeted) {
+            sink(1, prevValue)
+          }
+
+          inited = true
         }
 
         const sinksCopy = sinks.slice(0)
@@ -66,11 +77,11 @@ export default function remember(source) {
           sink(type, data)
         })
       })
-
       return
     }
 
     sink(0, talkback)
+    greeted = true
 
     if (inited && endValue === UNIQUE) {
       sink(1, value)
