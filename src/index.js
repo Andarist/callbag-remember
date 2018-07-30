@@ -23,8 +23,6 @@ export default function remember(source) {
     sinks.push(sink)
 
     const talkback = (type, data) => {
-      if (type === 0) return
-
       if (type === 2) {
         const index = sinks.indexOf(sink)
 
