@@ -3,17 +3,17 @@
   "version": "1.0.3",
   "description": "👜 Callbag operator which shares input stream between subscribers and emits last emitted value upon subscription.",
   "main": "dist/callbag-remember.js",
-  "module": "dist/callbag-remember.es.js",
+  "module": "dist/callbag-remember.esm.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "pretest": "npm run build",
     "test": "jest",
     "precommit": "lint-staged",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
-    "prepare": "npm test"
+    "preversion": "npm test",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
