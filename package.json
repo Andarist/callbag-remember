@@ -4,8 +4,10 @@
   "description": "👜 Callbag operator which shares input stream between subscribers and emits last emitted value upon subscription.",
   "main": "dist/callbag-remember.js",
   "module": "dist/callbag-remember.esm.js",
+  "types": "types.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types.d.ts"
   ],
   "scripts": {
     "test": "jest --env=node",
@@ -48,5 +50,8 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
     "rollup-plugin-babel": "^4.0.3"
+  },
+  "dependencies": {
+    "callbag": "^1.4.0"
   }
 }
