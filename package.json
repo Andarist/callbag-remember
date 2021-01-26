@@ -4,8 +4,10 @@
   "description": "👜 Callbag operator which shares input stream between subscribers and emits last emitted value upon subscription.",
   "main": "dist/callbag-remember.js",
   "module": "dist/callbag-remember.esm.js",
+  "types": "./index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "*.d.ts"
   ],
   "scripts": {
     "test": "jest --env=node",
@@ -31,6 +33,9 @@
     "url": "https://github.com/Andarist/callbag-remember/issues"
   },
   "homepage": "https://github.com/Andarist/callbag-remember#readme",
+  "dependencies": {
+    "callbag": "^1.4.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
